@@ -1,30 +1,19 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.userSchema({
-
-    Firstrname: {
-        type: String,
-        default: null
-    },
-    Lastname: {
-        type: String,
-        default: null
-    },
-    email: {
-        type: String,
-        unique: true
-    },
-    password: {
-        type: String,
-        unique: true
-    },
-
-    token: {
-        type: String,
-
-    },
+const { MONGODB_URL } = process.env;
 
 
-})
+exports.connect = () => {
 
-module.exports = mongoose.model('user', userSchema);
+    mongoose.connect(MONGODB_URL, {
+        useNewUrlparser: true,
+        useUnifiedTopology: true,
+    })
+        .then(console.log(`DB connection successsfully`))
+        .catch((error) => {
+            console.log('DB connection Failed');
+            console.log(error);
+            process.exit(1);
+        });
+
+};
