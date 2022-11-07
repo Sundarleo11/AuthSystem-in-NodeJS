@@ -5,6 +5,6 @@ const { port } = process.env
 
 
 app.listen(port, () => {
-    console.log(`Server is up and runing on port ${port}`);
+    console.log(`Server is up and runing on port : ${port}`);
 })
 
