@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 })
 
-app.post('/register', async (req, res) => {
+    app.post('/register', async (req, res) => {
 
     try {
         const { firstname, lastname, email, password}=req.body;
@@ -57,6 +57,41 @@ app.post('/register', async (req, res) => {
         console.log(error);
     }
 
+
+
    
 });
+
+app.post("/login",async (req,res)=>{
+
+    try {
+        const{email,password}=req.body;
+
+        if(!(email && password)){
+            return res.status(404).send('pls signup');
+        }
+         const user= await User.findOne({ email });
+        if(user && (await bcrypt.compare(password, user.password))){
+            const token =jwt.sign(
+                {user_id: user._id,email},
+                process.env.SECRTET_KEY,
+                {
+                    expiresIn:"2h"
+                }
+    
+            );
+            user.token =token;
+             //update or not in DB
+        
+        //TODO:handle password situation
+         user.password = undefined;
+         return res.status(201).json(user);
+        }
+        return res.status(401).send("email or password is incorrect");
+    } catch (error) {
+        console.log(error);
+    }
+
+  })
+
 module.exports = app;
