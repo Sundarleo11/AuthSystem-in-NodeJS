@@ -1,12 +1,16 @@
 const jwt=require('jsonwebtoken');
 
 const auth=(req,res,next)=>{
-const token=req.header("Authorization").replace("Bearer ","")||
+console.log(req.cookies);
+const token=  
 req.cookies.token ||
-req.body.token;
+req.body.token ||
+req.header("Authorization");//.replace("Bearer ","");
+
 
 if(!token){
-    return res.status(403).send("token is missing");
+   res.status(403).send("token is missing");
+   
 }
 
 try {
