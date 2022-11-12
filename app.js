@@ -7,13 +7,17 @@ const app = express();
 app.use(express.json());
 
 const User = require('./model/user');
-
+const auth=require('./middleware/auth');
 app.get('/', (req, res) => {
 
     res.status(200).send("<h1>Hello from AuthSysetm<h1/>");
 
 })
+app.get("/desborad", auth, (req, res) => {
 
+    res.status(200).send("<h1>welcome to Dasborad<h1/>");
+
+})
     app.post('/register', async (req, res) => {
 
     try {
